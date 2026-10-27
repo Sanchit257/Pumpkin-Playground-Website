@@ -76,20 +76,3 @@ jobs:
           BODY="Preview: $URL (commit ${HEAD_SHA::7})"
           gh pr comment "$PR" -R "$GITHUB_REPOSITORY" --edit-last --body "$BODY" \
             || gh pr comment "$PR" -R "$GITHUB_REPOSITORY" --body "$BODY"
-
-  deploy-production:
-    needs: [check, deployment-config]
-    if: needs.deployment-config.outputs.available == 'true' && github.event_name == 'push' && github.ref == 'refs/heads/main'
-    runs-on: ubuntu-latest
-    env:
-      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-      VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version-file: .nvmrc
-      - run: npm i -g vercel@${{ env.VERCEL_CLI }}
-      - run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
-      - run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
-      - run: vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }}
