@@ -1,5 +1,6 @@
 import About from './components/About'
 import Faq from './components/Faq'
+import Footer from './components/Footer'
 import Hero from './components/Hero'
 import Inspiration from './components/Inspiration'
 import Navbar from './components/Navbar'
@@ -16,6 +17,7 @@ export default function App() {
         <Schedule />
         <Faq />
       </main>
+      <Footer />
     </>
   )
 }
