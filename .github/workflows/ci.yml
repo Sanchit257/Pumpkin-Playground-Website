@@ -30,10 +30,21 @@ jobs:
       - run: npm run typecheck
       - run: npm run build
 
-  deploy-preview:
+  deployment-config:
     needs: check
+    runs-on: ubuntu-latest
+    outputs:
+      available: ${{ steps.secrets.outputs.available }}
+    steps:
+      - id: secrets
+        env:
+          AVAILABLE: ${{ secrets.VERCEL_TOKEN != '' && secrets.VERCEL_ORG_ID != '' && secrets.VERCEL_PROJECT_ID != '' }}
+        run: printf 'available=%s\n' "$AVAILABLE" >> "$GITHUB_OUTPUT"
+
+  deploy-preview:
+    needs: [check, deployment-config]
     # Fork PRs have no secrets: skip instead of failing.
-    if: github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository
+    if: needs.deployment-config.outputs.available == 'true' && github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -67,8 +78,8 @@ jobs:
             || gh pr comment "$PR" -R "$GITHUB_REPOSITORY" --body "$BODY"
 
   deploy-production:
-    needs: check
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    needs: [check, deployment-config]
+    if: needs.deployment-config.outputs.available == 'true' && github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     env:
       VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
