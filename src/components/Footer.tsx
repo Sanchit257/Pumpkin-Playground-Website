@@ -1,4 +1,4 @@
-import { ACM_URL, hero, visibleFooterLinks } from '../content'
+import { ACM_URL, footerBy, hero, visibleFooterLinks } from '../content'
 
 const external = (href: string) =>
   href.startsWith('http') ? { target: '_blank', rel: 'noopener noreferrer' } : {}
@@ -18,7 +18,7 @@ export default function Footer() {
           </span>
         </div>
         <p className="font-body text-2xl">
-          by
+          {footerBy}
         </p>
         {ACM_URL ? (
           <a href={ACM_URL} {...external(ACM_URL)}>{logo}</a>

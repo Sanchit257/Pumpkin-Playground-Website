@@ -52,6 +52,8 @@ export const navLinks: NavLink[] = [
   ...(visibleFaq.length ? [{ label: 'FAQ', href: '#faq' }] : []),
 ]
 
+export const footerBy = 'by'
+
 export const footerLinks: NavLink[] = [
   { label: 'Devpost', href: DEVPOST_URL },
   { label: 'Instagram', href: '' },
