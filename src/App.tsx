@@ -1,7 +1,9 @@
 import About from './components/About'
+import Faq from './components/Faq'
 import Hero from './components/Hero'
 import Inspiration from './components/Inspiration'
 import Navbar from './components/Navbar'
+import Schedule from './components/Schedule'
 
 export default function App() {
   return (
@@ -11,6 +13,8 @@ export default function App() {
         <Hero />
         <About />
         <Inspiration />
+        <Schedule />
+        <Faq />
       </main>
     </>
   )
