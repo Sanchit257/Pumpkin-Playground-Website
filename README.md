@@ -1,32 +1,66 @@
-# React + TypeScript + Vite
+# Pumpkin Playground
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+Event site for **Pumpkin Playground**, a month-long, open-ended project sprint hosted by ACM at CSULB. Members build a project of their choice, submit it on [Devpost](https://pumpkin-playground.devpost.com), and vote on submissions.
 
-Currently, two official plugins are available:
+Single-page React app: Hero, About, Inspiration, Schedule, FAQ, Footer.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Stack
 
-## React Compiler
+- React 19 + TypeScript
+- Vite 8
+- Tailwind CSS 4 (via `@tailwindcss/vite`; design tokens in `src/index.css` `@theme`)
+- Oxlint
+- Vercel hosting, deployed from GitHub Actions
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Getting started
 
-## Expanding the Oxlint configuration
+Requires Node 22 (see `.nvmrc`).
 
-If you are developing a production application, we recommend enabling type-aware lint rules by installing `oxlint-tsgolint` and editing `.oxlintrc.json`:
-
-```json
-{
-  "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": ["react", "typescript", "oxc"],
-  "options": {
-    "typeAware": true
-  },
-  "rules": {
-    "react/rules-of-hooks": "error",
-    "react/only-export-components": ["warn", { "allowConstantExport": true }]
-  }
-}
+```sh
+nvm use
+npm ci
+npm run dev
 ```
 
-See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rules) for the full list of rules and categories.
+## Scripts
+
+| Command | What it does |
+|---|---|
+| `npm run dev` | Start the Vite dev server |
+| `npm run build` | Typecheck, then build to `dist/` |
+| `npm run preview` | Serve the production build locally |
+| `npm run lint` | Run Oxlint |
+| `npm run typecheck` | Run `tsc -b` |
+
+## Project layout
+
+```
+src/
+  content.ts      All site copy, links, schedule, FAQ
+  App.tsx         Page section order
+  components/     One file per section (Hero, About, Schedule, ...)
+  index.css       Tailwind import + theme tokens + font faces
+public/
+  images/         Flyer, logos, OG image (WebP)
+  fonts/          Self-hosted Miltonian Tattoo + Josefin Sans (OFL)
+docs/
+  figma-handoff.md          Values pulled from the Figma design
+  superpowers/specs, plans  Design spec and build plan
+```
+
+## Editing content
+
+All copy lives in `src/content.ts`, so most updates need no component changes:
+
+- `SIGNUP_URL`, `DEVPOST_URL`, `ACM_URL`: external links.
+- `about.cards`, `schedule`, `faq`, `navLinks`, `footerLinks`: lists rendered by their sections.
+- An About card with an empty `body`, an FAQ entry with an empty question or answer, and a footer link with an empty `href` are hidden, so placeholders can stay until the copy is ready.
+
+Page title, description, and Open Graph tags are in `index.html`.
+
+## CI and deploys
+
+- **`ci.yml`**: on every PR and push to `main`, runs lint, typecheck, and build. For PRs from this repo it deploys a Vercel preview and comments the URL on the PR.
+- **`deploy-production.yml`**: on push to `main`, runs the same checks and deploys to Vercel production.
+
+Deploy jobs need the repo secrets `VERCEL_TOKEN`, `VERCEL_ORG_ID`, and `VERCEL_PROJECT_ID`. Without them, deploys are skipped and the checks still run.
