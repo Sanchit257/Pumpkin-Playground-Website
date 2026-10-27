@@ -21,7 +21,7 @@
 - WCAG 2.1 AA. If a Figma text color fails contrast, shift **that text only** to the nearest palette color that passes.
 - Node 22 (`.nvmrc` = `22`), npm only (commit `package-lock.json`).
 - Vercel team slug `acm-beach-hacks`, Team ID `team_QSOsa5Izvmxpjjc7Rg5zAkgs` (verify), project `pumpkin-playground`, Vercel account `sponsorship-9917`.
-- **Shared checkout on `main`.** Workers commit locally with explicit paths (`git add <paths>`, never `git add -A` / `.`). Never `git checkout`/`switch` branches in the shared checkout. If `index.lock` exists, wait 5 s and retry.
+- **Shared checkout on branch `site-v1`** (user decision 2026-10-27). Local `main` stays at `origin/main`; never commit to `main`. Workers commit locally on `site-v1` with explicit paths (`git add <paths>`, never `git add -A` / `.`). Never `git checkout`/`switch` branches in the shared checkout. If `index.lock` exists, wait 5 s and retry.
 - **Needs the user's explicit yes, every time:** `git push`, `gh secret set`, `gh pr merge`, any production deploy, any Vercel project setting change. Agents never print, log, or commit the Vercel token.
 - Out of scope: countdown, animations beyond hover/focus, analytics, dark mode, CMS, unit test suite.
 
@@ -161,9 +161,9 @@ git commit -m "chore: scaffold Vite + React + TS + Tailwind v4"
 
 **Produces:** Tailwind color utilities `bg-cream`, `text-brown-dark`, etc. and font utilities `font-display`, `font-body` (exact names below are fixed; hex/font values come from Figma).
 
-- [ ] **Step 1: Pull exact values from Figma.** Load the `figma:figma-design-to-code` skill, then call `get_design_context` (file `GHOGFCB9OK42PCbFbEFkey`) on `1:3` (hero), `7:38` (about), `8:195` (footer), and `get_metadata`/`get_design_context` on palette `1:67`. Record the 8 palette hex values and every font family + weight used for: hero title, section headings, body text, nav links, CTA label, card titles.
+- [x] **Step 1: Pull exact values from Figma.** Load the `figma:figma-design-to-code` skill, then call `get_design_context` (file `GHOGFCB9OK42PCbFbEFkey`) on `1:3` (hero), `7:38` (about), `8:195` (footer), and `get_metadata`/`get_design_context` on palette `1:67`. Record the 8 palette hex values and every font family + weight used for: hero title, section headings, body text, nav links, CTA label, card titles.
 
-- [ ] **Step 2: Write tokens** in `src/index.css` using these role names (fill hex from Step 1; palette order in Figma left→right, top→bottom):
+- [x] **Step 2: Write tokens** in `src/index.css` using these role names (fill hex from Step 1; palette order in Figma left→right, top→bottom):
 
 ```css
 @import "tailwindcss";
@@ -190,9 +190,9 @@ body { @apply bg-cream font-body text-brown-dark; }
 
 The `#……` and `<Figma … font>` slots are **values you copy from Figma in Step 1**, not choices. If a font is not on Google Fonts, self-host the `.woff2` under `public/fonts/` with `@font-face` + `font-display: swap`.
 
-- [ ] **Step 3: Load fonts** in `index.html` `<head>` (Google Fonts case): two `preconnect` links (`https://fonts.googleapis.com`, `https://fonts.gstatic.com` crossorigin) + one stylesheet link with only the weights used and `&display=swap`.
+- [x] **Step 3: Load fonts** in `index.html` `<head>` (Google Fonts case): two `preconnect` links (`https://fonts.googleapis.com`, `https://fonts.gstatic.com` crossorigin) + one stylesheet link with only the weights used and `&display=swap`.
 
-- [ ] **Step 4: Export images** with Figma `download_assets` (or the asset URLs returned by `get_design_context`), convert to WebP (`npx @squoosh/cli` or `cwebp -q 80`), save as:
+- [x] **Step 4: Export images** with Figma `download_assets` (or the asset URLs returned by `get_design_context`), convert to WebP (`npx @squoosh/cli` or `cwebp -q 80`), save as:
 
 | Figma node | File | Notes |
 |---|---|---|
@@ -204,9 +204,9 @@ The `#……` and `<Figma … font>` slots are **values you copy from Figma in S
 
 Also keep a 1200×630 crop/pad of the flyer as `public/images/og.png` for Open Graph.
 
-- [ ] **Step 5: Verify** — temporarily render `<h1 className="font-display text-orange-bright">Pumpkin</h1>` in `App.tsx`, `npm run dev`, compare against Figma `1:3` title: same font, same color. Revert the temp line. `npm run build` passes.
+- [x] **Step 5: Verify** — temporarily render `<h1 className="font-display text-orange-bright">Pumpkin</h1>` in `App.tsx`, `npm run dev`, compare against Figma `1:3` title: same font, same color. Revert the temp line. `npm run build` passes.
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit**
 
 ```bash
 git add src/index.css index.html public/images
@@ -366,7 +366,7 @@ export default function App() {
 
 **Design:** Figma `6:6` — pill bar (rounded-full, white/cream fill, shadow), pumpkin icon + two-line wordmark ("Pumpkin" orange-bright / "Playground" brown-dark), vertical divider, links, "Devpost" right-aligned. Sticky top with small top margin as in Figma.
 
-- [ ] **Step 1: Implement** — behavior below is required; visual classes come from Figma:
+- [x] **Step 1: Implement** — behavior below is required; visual classes come from Figma:
 
 ```tsx
 import { useEffect, useRef, useState } from 'react'
@@ -464,9 +464,9 @@ export default function Navbar() {
 
 Hero `<section>` gets `id="top"`. Every section gets `className="scroll-mt-32"` (≥ navbar height).
 
-- [ ] **Step 2: Verify** in `npm run dev`: desktop 1440 matches Figma `6:6`; at 375 px only logo + hamburger show; Tab reaches hamburger, Enter opens, focus lands on "About", Esc closes and focus returns to button; clicking outside closes; clicking a link scrolls to the section with heading not hidden under the bar.
+- [x] **Step 2: Verify** in `npm run dev`: desktop 1440 matches Figma `6:6`; at 375 px only logo + hamburger show; Tab reaches hamburger, Enter opens, focus lands on "About", Esc closes and focus returns to button; clicking outside closes; clicking a link scrolls to the section with heading not hidden under the bar.
 
-- [ ] **Step 3: Commit** `git add src/components/Navbar.tsx src/App.tsx && git commit -m "feat: add sticky navbar with mobile menu"`
+- [x] **Step 3: Commit** `git add src/components/Navbar.tsx src/App.tsx && git commit -m "feat: add sticky navbar with mobile menu"`
 
 **Acceptance criteria:**
 - **F4.1** Navbar stays visible while scrolling at all widths.
@@ -486,7 +486,7 @@ Hero `<section>` gets `id="top"`. Every section gets `className="scroll-mt-32"` 
 
 **Design:** Figma `1:3`. Desktop (`lg`): two columns — left: `<h1>` with "Pumpkin" (orange-bright) / "Playground" (brown-dark) in display font ~96–110 px; subtitle; CTA pill (brown-dark fill, cream text, ~380×94, shadow). Right: flyer image with drop shadow. Decorative pumpkin bottom-left, leaves top-right edge. Mobile: single column, text → CTA → flyer; decorations smaller or hidden.
 
-- [ ] **Step 1: Implement.** Required structure:
+- [x] **Step 1: Implement.** Required structure:
 
 ```tsx
 <section id="top" aria-labelledby="hero-title" className="relative scroll-mt-32 overflow-hidden ...">
@@ -507,9 +507,9 @@ Hero `<section>` gets `id="top"`. Every section gets `className="scroll-mt-32"` 
 </section>
 ```
 
-- [ ] **Step 2: Verify** at 375×667 (DevTools device toolbar): CTA fully visible without scrolling. At 1440: side-by-side matches Figma `1:3` screenshot.
+- [x] **Step 2: Verify** at 375×667 (DevTools device toolbar): CTA fully visible without scrolling. At 1440: side-by-side matches Figma `1:3` screenshot.
 
-- [ ] **Step 3: Commit** `git add src/components/Hero.tsx src/App.tsx && git commit -m "feat: add hero section with sign-up CTA"`
+- [x] **Step 3: Commit** `git add src/components/Hero.tsx src/App.tsx && git commit -m "feat: add hero section with sign-up CTA"`
 
 **Acceptance criteria:**
 - **F5.1** Exactly one `<h1>` on the page (the hero title).
@@ -652,7 +652,7 @@ Note: the hook runs before the early return — keep `useState` above `if (...) 
 - [ ] **Step 3: Keyboard.** Tab through the whole page: every link/button reachable in visual order with a visible focus ring (add `focus-visible:outline` classes where missing).
 - [ ] **Step 4: Perf.** `npx lighthouse http://localhost:4173 --form-factor=mobile --view` → Performance ≥ 90. Levers: flyer `fetchPriority="high"` + explicit width/height, `loading="lazy"` on all below-fold images, only used font weights.
 - [ ] **Step 5: Final checks** `npm run lint && npm run typecheck && npm run build`.
-- [ ] **Step 6: Commit** `git add src src/index.css index.html public && git commit -m "fix: responsive, contrast, and performance pass"` then `hc send lead-engineer "F1–F9 done on local main @ <sha>; ready for D4 push"`.
+- [ ] **Step 6: Commit** `git add src src/index.css index.html public && git commit -m "fix: responsive, contrast, and performance pass"` then `hc send lead-engineer "F1–F9 done on site-v1 @ <sha>; ready for D4 push"`.
 
 **Acceptance criteria:**
 - **F9.1** No horizontal scroll at 320 / 375 / 768 / 1024 / 1440 px.
@@ -810,7 +810,7 @@ jobs:
 
 ### Task D3: Pipeline smoke — push branch, open PR, prove preview (user yes)
 
-Shared checkout stays on `main`; push local `main` to a remote branch without switching:
+Shared checkout is on `site-v1`; push it without switching branches:
 
 - [ ] **Step 1 (user yes):**
 
@@ -835,15 +835,15 @@ gh pr create -R WinstonTa/Pumpkin-Playground-Website --base main --head site-v1 
 - [ ] After F9: `git push origin HEAD:refs/heads/site-v1` → wait for checks → confirm the PR comment URL updated to the new commit → `hc send qa "Preview ready for Q1: <url> (commit <sha>)"` and `hc send lead-engineer "D4 done: <url>"`.
 
 **Acceptance criteria:**
-- **D4.1** PR head SHA equals local `main` HEAD; checks green; preview comment references that SHA.
+- **D4.1** PR head SHA equals local `site-v1` HEAD; checks green; preview comment references that SHA.
 
 ### Task D5: Production (user yes, after Q1 PASS)
 
-- [ ] **Step 1 (user yes):** merge with a **merge commit** (not squash — keeps local `main` fast-forwardable):
+- [ ] **Step 1 (user yes):** merge with a **merge commit** (not squash — keeps `site-v1` history identical to what QA tested):
 
 ```bash
-gh pr merge site-v1 -R WinstonTa/Pumpkin-Playground-Website --merge --delete-branch
-git pull --ff-only origin main
+gh pr merge site-v1 -R WinstonTa/Pumpkin-Playground-Website --merge   # no --delete-branch: gh would check out main in the shared checkout
+git fetch origin main:main   # fast-forwards local main without checkout; site-v1 stays checked out
 ```
 
 - [ ] **Step 2:** `gh run watch -R WinstonTa/Pumpkin-Playground-Website` on the `push` run → `deploy-production` green. Get the production URL: `vercel ls pumpkin-playground --scope acm-beach-hacks --token …` (user) or the run log.
@@ -851,7 +851,7 @@ git pull --ff-only origin main
 
 **Acceptance criteria:**
 - **D5.1** `deploy-production` green on the merge commit; production URL returns 200 anonymously.
-- **D5.2** Local `main` == `origin/main` after `--ff-only` pull.
+- **D5.2** Local `main` == `origin/main` after `git fetch origin main:main`.
 
 ---
 
@@ -939,7 +939,7 @@ Each row maps 1:1 to a frontend/devops acceptance criterion.
 | QA ID | Checks AC | How to verify | Pass when |
 |---|---|---|---|
 | Q-D5.1 | D5.1 | `gh run list -R …` latest push run; `curl -sI <prod> \| head -1` | `deploy-production` green; `200` |
-| Q-D5.2 | D5.2 | `git rev-parse main origin/main` | equal |
+| Q-D5.2 | D5.2 | `git fetch origin && git rev-parse main origin/main` | equal |
 | Q-SEO | spec §8 | `npx lighthouse <prod> --form-factor=mobile --only-categories=seo` | SEO ≥ 95 |
 | Q-PROD-CTA | F5.2 on prod | click CTA on production at 375 | opens the Google Form (`SIGNUP_URL`) in new tab |
 | Q-PROD-SMOKE | F9.2 on prod | Lighthouse perf/a11y/BP on prod | same thresholds as Q-F9.2 |
