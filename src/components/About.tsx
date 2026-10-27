@@ -5,7 +5,7 @@ const title = navLinks.find((l) => l.href === '#about')!.label
 
 export default function About() {
   return (
-    <section id="about" aria-labelledby="about-title" className="relative scroll-mt-32 overflow-hidden px-4 py-16 lg:px-[62px] lg:py-24">
+    <section id="about" aria-labelledby="about-title" className="relative scroll-mt-32 overflow-hidden px-4 py-16 lg:px-[62px] lg:pt-24 lg:pb-36">
       <h2 id="about-title" className="font-display text-5xl leading-none text-rust lg:text-[110px]">{title}</h2>
       <p className="mt-6 max-w-[752px] font-body text-xl leading-normal text-brown-dark lg:mt-8 lg:text-[40px]">{about.intro}</p>
       {visibleCards.length > 0 && (
@@ -20,7 +20,7 @@ export default function About() {
         </ul>
       )}
       <img src="/images/pumpkin.webp" alt="" aria-hidden="true" loading="lazy" width={186} height={186} className="pointer-events-none absolute top-8 right-0 hidden w-[186px] -rotate-[14deg] lg:block" />
-      <img src="/images/leaves.webp" alt="" aria-hidden="true" loading="lazy" width={110} height={110} className="pointer-events-none absolute top-40 left-0 hidden w-[110px] lg:block" />
+      <img src="/images/leaves.webp" alt="" aria-hidden="true" loading="lazy" width={110} height={110} className="pointer-events-none absolute bottom-2 left-0 hidden w-24 lg:block" />
     </section>
   )
 }
