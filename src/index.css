@@ -1,1 +1,28 @@
 @import "tailwindcss";
+
+@theme {
+  --color-cream: #F6ECDA;
+  --color-peach: #FFB688;
+  --color-orange-soft: #ED9346;
+  --color-orange-burnt: #E06C36;
+  --color-rust: #A7481C;
+  --color-orange: #FF7D14;
+  --color-orange-bright: #FF5B00;
+  --color-brown-dark: #7C3C1A;
+  --color-card: #E6BA9E;
+
+  --font-display: "Miltonian Tattoo", serif;
+  --font-body: "Josefin Sans", sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+body {
+  @apply bg-cream font-body text-brown-dark;
+}
