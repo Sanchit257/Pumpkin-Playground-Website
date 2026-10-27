@@ -1,1 +1,35 @@
-<h1>Hello World</h1>
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" href="/favicon.png" type="image/png" />
+    <link
+      rel="preload"
+      as="image"
+      href="/images/flyer-688.webp"
+      imagesrcset="/images/flyer-688.webp 688w, /images/flyer.webp 944w"
+      imagesizes="(min-width: 1024px) 611px, 380px"
+      fetchpriority="high"
+    />
+    <link rel="preload" as="font" type="font/woff2" href="/fonts/miltonian-tattoo-latin.woff2" crossorigin />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pumpkin Playground · ACM at CSULB</title>
+    <meta
+      name="description"
+      content="Pumpkin Playground is a month-long, open-ended project sprint hosted by CSULB ACM, encouraging members to build projects of their choice, share their work, and vote on submissions."
+    />
+    <meta name="theme-color" content="#F6ECDA" />
+    <meta property="og:title" content="Pumpkin Playground · ACM at CSULB" />
+    <meta
+      property="og:description"
+      content="A chance to create and showcase a project of your interest! Submissions due Thursday, Nov. 5th at 11:59 PM on Devpost."
+    />
+    <meta property="og:image" content="/images/og.png" />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
