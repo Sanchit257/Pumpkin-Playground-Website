@@ -17,6 +17,7 @@ The event is already live: it started Oct 10, submissions close **Thursday Nov 5
 - Vite + React 19 + TypeScript + Tailwind CSS v4 (`@tailwindcss/vite` plugin, `@theme` tokens in CSS).
 - npm, Node 22 LTS (`.nvmrc` + `engines`).
 - No backend, no router, no CMS. Static build in `dist/`.
+- Motion: Framer Motion (`motion` package, imports from `motion/react`) for scroll-reveal only — see §5 Motion.
 - Hosting: Vercel, team `acm-beach-hacks`, project `pumpkin-playground`.
 
 ## 3. Figma map
@@ -96,6 +97,19 @@ Breakpoints (Tailwind defaults): **mobile < 768px**, **tablet 768–1023px** (`m
 ### Decorations
 - Pumpkins, leaves: `alt=""`, `aria-hidden`, may shrink or hide on mobile; must never cause horizontal scroll or overlap text.
 
+### Motion (user decision 2026-10-27)
+- Scroll-reveal animations with Framer Motion across the page. Frontend owns the choreography and is **encouraged to be creative**: staggered card/row reveals, heading entrances, pumpkins and leaves drifting, rotating or parallaxing on scroll, playful hover micro-interactions that fit the Halloween "playground" theme.
+- Frontend loads the `ui-ux-pro-max` skill and follows its animation and UX guidelines when designing the motion.
+- Figma layout, palette, copy and the §7 contrast swaps stay unchanged; motion is added on top.
+- Hard guardrails:
+  - `prefers-reduced-motion: reduce` → no movement or parallax; content is visible immediately (`<MotionConfig reducedMotion="user">` plus a check for decoration parallax).
+  - LCP elements (hero title, flyer) are never hidden at first paint: no `opacity: 0` initial state on them.
+  - Animate only `transform` and `opacity` (no width/height/top/left) so CLS stays ≤ 0.1.
+  - Reveals run once (`viewport={{ once: true }}`); no scroll-jacking, no smooth-scroll library.
+  - Keep the bundle small: `LazyMotion` + `m` components with `domAnimation`.
+  - Animated decorations still never cause horizontal scroll or overlap text.
+  - §8 Lighthouse gates still hold.
+
 ## 6. Content (`content.ts`)
 
 Source of truth: Figma text, the event flyer, and the user. **Nothing invented.**
@@ -127,7 +141,7 @@ Filling content later = edit `content.ts` only, one PR.
 - Visible focus indicator on every interactive element. Logical tab order follows visual order.
 - WCAG 2.1 AA contrast: 4.5:1 normal text, 3:1 large text (≥24px, or ≥18.66px bold).
 - **Contrast decision (user approved):** if a Figma text color fails AA on its background (likely the bright orange headings on cream), frontend shifts **that text** to the nearest palette color that passes. Decorative / non-text uses keep the Figma color.
-- `prefers-reduced-motion`: disable smooth scroll.
+- `prefers-reduced-motion`: disable smooth scroll and all scroll-reveal/parallax movement (§5 Motion).
 - All informational images have meaningful `alt` (flyer alt includes the date and "submit on Devpost"); decorative images `alt=""`.
 
 ## 8. Quality gates
@@ -165,7 +179,7 @@ Limits the user accepts: the repo owner can see secret names and can delete secr
 
 ## 10. Out of scope
 
-Countdown timer, animations beyond hover/focus states, analytics, dark mode, CMS, i18n, contact form, separate tablet/mobile Figma design work.
+Countdown timer, animations beyond hover/focus states and §5 Motion scroll-reveal, analytics, dark mode, CMS, i18n, contact form, separate tablet/mobile Figma design work.
 
 ## 11. Open items (do not block ship)
 

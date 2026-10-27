@@ -6,7 +6,7 @@
 
 **Architecture:** Static Vite + React + TS single page; all copy in `src/content.ts`, one component per section, Tailwind v4 `@theme` tokens from the Figma palette. GitHub Actions runs lint/typecheck/build on PRs and `main`, then deploys with the Vercel CLI using repo secrets (no Vercel GitHub app).
 
-**Tech Stack:** Vite, React 19, TypeScript, Tailwind CSS v4 (`@tailwindcss/vite`), oxlint (create-vite default), npm, Node 22, GitHub Actions, Vercel CLI.
+**Tech Stack:** Vite, React 19, TypeScript, Tailwind CSS v4 (`@tailwindcss/vite`), oxlint (create-vite default), Framer Motion (`motion` package, F10), npm, Node 22, GitHub Actions, Vercel CLI.
 
 **Spec:** `/Users/kaydee/Developer/Pumpkin-Playground-Website/docs/superpowers/specs/2026-10-27-pumpkin-playground-design.md` — read it first; it is the source of truth for copy, layout and decisions.
 
@@ -23,7 +23,7 @@
 - Vercel team slug `acm-beach-hacks`, Team ID `team_QSOsa5Izvmxpjjc7Rg5zAkgs` (verify), project `pumpkin-playground`, Vercel account `sponsorship-9917`.
 - **Shared checkout on branch `site-v1`** (user decision 2026-10-27). Local `main` stays at `origin/main`; never commit to `main`. Workers commit locally on `site-v1` with explicit paths (`git add <paths>`, never `git add -A` / `.`). Never `git checkout`/`switch` branches in the shared checkout. If `index.lock` exists, wait 5 s and retry.
 - **Needs the user's explicit yes, every time:** `git push`, `gh secret set`, `gh pr merge`, any production deploy, any Vercel project setting change. Agents never print, log, or commit the Vercel token.
-- Out of scope: countdown, animations beyond hover/focus, analytics, dark mode, CMS, unit test suite.
+- Out of scope: countdown, animations beyond hover/focus and the F10 scroll-reveal motion, analytics, dark mode, CMS, unit test suite.
 
 ## Required skills per worker (inline, mandatory)
 
@@ -39,6 +39,7 @@ Every worker loads these **before its first task** and follows them exactly. Loa
 | superpowers:requesting-code-review | `$SP/requesting-code-review/SKILL.md` | frontend (after F9), devops (after D2) | self-review your diff against this plan's ACs before handing off (inline review, no subagent) |
 | superpowers:receiving-code-review | `$SP/receiving-code-review/SKILL.md` | frontend, devops | when qa reports FAIL items — verify each before changing code |
 | figma:figma-design-to-code | `/Users/kaydee/.claude/plugins/cache/claude-plugins-official/figma/2.2.81/skills/figma-design-to-code/SKILL.md` | frontend | before any `get_design_context` call (F2, F4–F8) |
+| ui-ux-pro-max | `/Users/kaydee/.claude/plugins/cache/ui-ux-pro-max-skill/ui-ux-pro-max/2.6.2/.claude/skills/ui-ux-pro-max/SKILL.md` | frontend | before F10: design the scroll-reveal motion and review UI/UX polish with its animation + UX guidelines |
 
 Agent notes (checked 2026-10-27):
 - **devops (Codex):** `~/.agents/skills/` already has executing-plans, verification-before-completion, systematic-debugging, requesting-code-review; use those or the paths above.
@@ -63,7 +64,8 @@ First line of every worker's first report to lead: `skills loaded: <list>`.
 | F7 | frontend | Schedule + FAQ | F2, F3 |
 | F8 | frontend | Footer + page meta + favicon | F2, F3 |
 | F9 | frontend | Responsive/a11y/perf pass | F4–F8 |
-| D4 | devops (+ user yes) | Push final commits to `site-v1` → fresh preview | F9 |
+| F10 | frontend | Scroll-reveal motion (Framer Motion, ui-ux-pro-max) | F9 |
+| D4 | devops (+ user yes) | Push final commits to `site-v1` → fresh preview | F10 |
 | Q1 | qa | Full checklist on preview URL | D4 |
 | D5 | devops (+ user yes) | Merge PR → production deploy | Q1 PASS (or user waiver) |
 | Q2 | qa | Production smoke + SEO Lighthouse | D5 |
@@ -663,6 +665,30 @@ Note: the hook runs before the early return — keep `useState` above `if (...) 
 
 ---
 
+### Task F10: Scroll-reveal motion (Framer Motion) — user decision 2026-10-27
+
+**Files:** `package.json`, `package-lock.json`, `src/App.tsx`, any component in `src/components/`, optional new `src/components/Reveal.tsx` (or similar shared wrapper).
+
+**Brief:** Be creative. The user wants the page to feel alive on scroll — playful, Halloween-"playground" energy. You own the choreography: staggered card/row reveals, heading entrances, pumpkins and leaves drifting/rotating/parallaxing, hover micro-interactions. Keep Figma layout, palette, copy and contrast swaps unchanged; motion goes on top. Spec §5 "Motion" is the source of truth for the guardrails below.
+
+- [ ] **Step 1: Load the skill.** Read `/Users/kaydee/.claude/plugins/cache/ui-ux-pro-max-skill/ui-ux-pro-max/2.6.2/.claude/skills/ui-ux-pro-max/SKILL.md` and follow its animation and UX guidelines (durations, easing, stagger, reduced motion). Note in your report which of its recommendations you applied.
+- [ ] **Step 2: Install.** `npm install motion` (Framer Motion's current package; import from `motion/react`).
+- [ ] **Step 3: Wire globally.** In `App.tsx` wrap the page in `<LazyMotion features={domAnimation}>` and `<MotionConfig reducedMotion="user">`; use `m.*` components (not `motion.*`) so the bundle stays small.
+- [ ] **Step 4: Build the motion.** Sections, cards, schedule rows and FAQ rows reveal on scroll with `whileInView` + `viewport={{ once: true }}`; decorations may use `useScroll`/`useTransform` for parallax/rotation. Animate only `transform`/`opacity`. Do **not** start the hero title or flyer at `opacity: 0` (LCP). Parallax hooks must check `useReducedMotion()` and return static values when true.
+- [ ] **Step 5: Verify.** Re-run the F9 width sweep and Lighthouse mobile on `npm run build && npm run preview`; DevTools → Rendering → emulate `prefers-reduced-motion: reduce` and confirm nothing moves and everything is visible.
+- [ ] **Step 6: Final checks** `npm run lint && npm run typecheck && npm run build`.
+- [ ] **Step 7: Commit** `git add package.json package-lock.json src && git commit -m "feat: add scroll-reveal motion"` then `hc send lead-engineer "F10 done on site-v1 @ <sha>; ready for D4 push"`.
+
+**Acceptance criteria:**
+- **F10.1** `motion` is in `dependencies`; components import from `motion/react`; page wrapped in `LazyMotion` (`domAnimation`) + `MotionConfig reducedMotion="user"`.
+- **F10.2** Scrolling 1440 px and 375 px: sections/cards/rows animate in once; after scrolling to the bottom no element inside `<main>` has computed `opacity: 0`.
+- **F10.3** With `prefers-reduced-motion: reduce` emulated: no transform/parallax movement; all content visible on load.
+- **F10.4** Hero title and flyer are visible at first paint (no `opacity: 0` initial).
+- **F10.5** F9.1 and F9.2 still pass (no horizontal scroll at 5 widths; Lighthouse mobile Perf ≥ 90, A11y ≥ 95, BP ≥ 95, CLS ≤ 0.1).
+- **F10.6** `npm run lint`, `typecheck`, `build` pass.
+
+---
+
 # Section B — devops (Codex agent)
 
 Rules: you never handle the Vercel token value; the user pastes it into their own terminal. Ask the user (through `lead-engineer`, or directly if they are in your pane) before every `gh secret set`, `git push`, `gh pr merge`, and Vercel setting change.
@@ -832,7 +858,7 @@ gh pr create -R WinstonTa/Pumpkin-Playground-Website --base main --head site-v1 
 
 ### Task D4: Update preview with final frontend (user yes)
 
-- [ ] After F9: `git push origin HEAD:refs/heads/site-v1` → wait for checks → confirm the PR comment URL updated to the new commit → `hc send qa "Preview ready for Q1: <url> (commit <sha>)"` and `hc send lead-engineer "D4 done: <url>"`.
+- [ ] After F10: `git push origin HEAD:refs/heads/site-v1` → wait for checks → confirm the PR comment URL updated to the new commit → `hc send qa "Preview ready for Q1: <url> (commit <sha>)"` and `hc send lead-engineer "D4 done: <url>"`.
 
 **Acceptance criteria:**
 - **D4.1** PR head SHA equals local `site-v1` HEAD; checks green; preview comment references that SHA.
@@ -915,6 +941,11 @@ Each row maps 1:1 to a frontend/devops acceptance criterion.
 | Q-F9.3 | F9.3 | Tab through whole page | visual order, every focus visible |
 | Q-F9.4 | F9.4 | inspect `<img>`s; Lighthouse CLS | lazy below fold; width/height set; CLS ≤ 0.1 |
 | Q-F9.5 | F9.5 | = Q-D2.2 green run | green |
+| Q-F10.1 | F10.1 | `grep '"motion"' package.json`; `grep -rn 'LazyMotion\|MotionConfig' src` | dep present; both wrappers, `reducedMotion="user"` |
+| Q-F10.2 | F10.2 | scroll to bottom at 1440 and 375, then `[...document.querySelectorAll('main *')].filter(e=>getComputedStyle(e).opacity==='0').length` | reveals seen; `0` |
+| Q-F10.3 | F10.3 | DevTools Rendering → emulate `prefers-reduced-motion: reduce`, reload, scroll | no movement; all content visible |
+| Q-F10.4 | F10.4 | throttled reload (Slow 4G), watch first paint / Lighthouse filmstrip | hero title + flyer visible immediately |
+| Q-F10.5 | F10.5 | = Q-F9.1 + Q-F9.2 after F10 | pass |
 | Q-D1.1 | D1.1 | `gh secret list -R WinstonTa/Pumpkin-Playground-Website` | 3 names listed |
 | Q-D1.2 | D1.2 | `jq .orgId .vercel/project.json`; `git status --short` | `team_…`; `.vercel` not shown |
 | Q-D1.3 | D1.3 | ask user/devops for Vercel settings screenshot; anonymous preview load | no Git repo; preview loads without login |
