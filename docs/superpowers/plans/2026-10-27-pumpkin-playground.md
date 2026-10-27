@@ -6,7 +6,7 @@
 
 **Architecture:** Static Vite + React + TS single page; all copy in `src/content.ts`, one component per section, Tailwind v4 `@theme` tokens from the Figma palette. GitHub Actions runs lint/typecheck/build on PRs and `main`, then deploys with the Vercel CLI using repo secrets (no Vercel GitHub app).
 
-**Tech Stack:** Vite, React 19, TypeScript, Tailwind CSS v4 (`@tailwindcss/vite`), ESLint (Vite template), npm, Node 22, GitHub Actions, Vercel CLI.
+**Tech Stack:** Vite, React 19, TypeScript, Tailwind CSS v4 (`@tailwindcss/vite`), oxlint (create-vite default), npm, Node 22, GitHub Actions, Vercel CLI.
 
 **Spec:** `/Users/kaydee/Developer/Pumpkin-Playground-Website/docs/superpowers/specs/2026-10-27-pumpkin-playground-design.md` — read it first; it is the source of truth for copy, layout and decisions.
 
@@ -80,7 +80,7 @@ Reporting: every worker reports **completed task IDs with AC evidence** or **blo
 
 **Files:**
 - Delete: `index.html` (placeholder "Hello World") — replaced by Vite's
-- Create: Vite react-ts template files at repo root (`package.json`, `package-lock.json`, `index.html`, `vite.config.ts`, `tsconfig*.json`, `eslint.config.js`, `src/*`, `public/*`, `.gitignore`), `.nvmrc`
+- Create: Vite react-ts template files at repo root (`package.json`, `package-lock.json`, `index.html`, `vite.config.ts`, `tsconfig*.json`, `src/*`, `public/*`, `.gitignore`), `.nvmrc`
 - Do NOT touch: `docs/`
 
 **Produces:** npm scripts `dev`, `build`, `preview`, `lint`, `typecheck`; Tailwind wired via `src/index.css`.
@@ -238,7 +238,7 @@ git commit -m "feat: add Figma palette tokens, fonts, and image assets"
 - `footerLinks: NavLink[]`, `visibleFooterLinks: NavLink[]`
 - `NumberBadge({ n }: { n: number })` renders zero-padded `01`, `02`…
 
-- [ ] **Step 1: Write `src/content.ts`** — copy verbatim:
+- [x] **Step 1: Write `src/content.ts`** — copy verbatim:
 
 ```ts
 // All site copy. Empty strings = not provided yet → item is hidden (spec §4 hide-empty rule).
@@ -304,7 +304,7 @@ export const footerLinks: NavLink[] = [
 export const visibleFooterLinks = footerLinks.filter((l) => l.href)
 ```
 
-- [ ] **Step 2: Write `src/components/NumberBadge.tsx`** (circled number from Figma `8:85`/`8:86`; style from Figma):
+- [x] **Step 2: Write `src/components/NumberBadge.tsx`** (circled number from Figma `8:85`/`8:86`; style from Figma):
 
 ```tsx
 export default function NumberBadge({ n }: { n: number }) {
@@ -319,7 +319,7 @@ export default function NumberBadge({ n }: { n: number }) {
 }
 ```
 
-- [ ] **Step 3: App skeleton** — `src/App.tsx` imports the section components (created in F4–F8) in order. Until each exists, keep it rendering only what exists; final form:
+- [x] **Step 3: App skeleton** — `src/App.tsx` imports the section components (created in F4–F8) in order. Until each exists, keep it rendering only what exists; final form:
 
 ```tsx
 import Navbar from './components/Navbar'
@@ -347,9 +347,9 @@ export default function App() {
 }
 ```
 
-- [ ] **Step 4: Verify** `npm run lint && npm run typecheck && npm run build` pass.
+- [x] **Step 4: Verify** `npm run lint && npm run typecheck && npm run build` pass.
 
-- [ ] **Step 5: Commit** `git add src/content.ts src/components/NumberBadge.tsx src/App.tsx && git commit -m "feat: add content module and NumberBadge"`
+- [x] **Step 5: Commit** `git add src/content.ts src/components/NumberBadge.tsx src/App.tsx && git commit -m "feat: add content module and NumberBadge"`
 
 **Acceptance criteria:**
 - **F3.1** `src/content.ts` exports exactly the names in "Produces"; copy matches spec §6 character-for-character (QA diffs Schedule 02 and Inspiration).

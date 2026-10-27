@@ -132,7 +132,7 @@ Filling content later = edit `content.ts` only, one PR.
 
 ## 8. Quality gates
 
-- npm scripts: `dev`, `build`, `preview`, `lint` (ESLint flat config from Vite template), `typecheck` (`tsc -b --noEmit` or equivalent).
+- npm scripts: `dev`, `build`, `preview`, `lint` (oxlint, create-vite 9.3.3 default; accepted by lead), `typecheck` (`tsc -b --noEmit` or equivalent).
 - CI (GitHub Actions) on pull requests and pushes to `main`: `npm ci` → `lint` → `typecheck` → `build`. No unit test suite (no logic beyond hide-empty filtering).
 - Lighthouse (mobile preset, against preview URL): Performance ≥ 90, Accessibility ≥ 95, Best Practices ≥ 95, SEO ≥ 95.
 - No horizontal scroll at 320, 375, 768, 1024, 1440 widths.
