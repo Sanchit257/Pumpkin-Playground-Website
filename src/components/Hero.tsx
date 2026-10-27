@@ -20,7 +20,9 @@ export default function Hero() {
           </a>
         </div>
         <img
-          src="/images/flyer.webp"
+          src="/images/flyer-688.webp"
+          srcSet="/images/flyer-688.webp 688w, /images/flyer.webp 944w"
+          sizes="(min-width: 1024px) 611px, 380px"
           width={611}
           height={791}
           fetchPriority="high"
