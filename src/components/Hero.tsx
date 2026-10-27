@@ -32,6 +32,7 @@ export default function Hero() {
         src="/images/pumpkin.webp"
         alt=""
         aria-hidden="true"
+        loading="lazy"
         width={229}
         height={229}
         className="pointer-events-none absolute bottom-0 left-[-43px] hidden w-[229px] rotate-[7.5deg] lg:block"
@@ -40,6 +41,7 @@ export default function Hero() {
         src="/images/leaves.webp"
         alt=""
         aria-hidden="true"
+        loading="lazy"
         width={167}
         height={167}
         className="pointer-events-none absolute top-8 right-0 hidden w-[167px] -rotate-90 lg:block"

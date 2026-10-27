@@ -5,13 +5,13 @@ const external = (href: string) =>
 
 export default function Footer() {
   const logo = (
-    <img src="/images/acm-logo.webp" alt="ACM at CSULB" width={93} height={93} className="size-[93px]" />
+    <img src="/images/acm-logo.webp" alt="ACM at CSULB" width={93} height={93} loading="lazy" className="size-[93px]" />
   )
   return (
     <footer className="bg-brown-dark px-4 py-8 text-white lg:min-h-[193px] lg:px-8">
       <div className="mx-auto flex max-w-[1377px] flex-col items-center gap-6 text-center lg:flex-row lg:flex-wrap lg:items-center lg:gap-x-10 lg:text-left">
         <div className="flex items-center gap-3">
-          <img src="/images/pumpkin-icon-light.webp" alt="" width={47} height={47} className="size-[47px]" />
+          <img src="/images/pumpkin-icon-light.webp" alt="" width={47} height={47} loading="lazy" className="size-[47px]" />
           <span className="leading-none">
             <span className="block font-display text-[32px] text-peach">{hero.titleTop}</span>
             <span className="block font-body text-2xl">{hero.titleBottom}</span>

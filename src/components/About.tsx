@@ -19,8 +19,8 @@ export default function About() {
           ))}
         </ul>
       )}
-      <img src="/images/pumpkin.webp" alt="" aria-hidden="true" width={186} height={186} className="pointer-events-none absolute top-8 right-0 hidden w-[186px] -rotate-[14deg] lg:block" />
-      <img src="/images/leaves.webp" alt="" aria-hidden="true" width={110} height={110} className="pointer-events-none absolute top-40 left-0 hidden w-[110px] lg:block" />
+      <img src="/images/pumpkin.webp" alt="" aria-hidden="true" loading="lazy" width={186} height={186} className="pointer-events-none absolute top-8 right-0 hidden w-[186px] -rotate-[14deg] lg:block" />
+      <img src="/images/leaves.webp" alt="" aria-hidden="true" loading="lazy" width={110} height={110} className="pointer-events-none absolute top-40 left-0 hidden w-[110px] lg:block" />
     </section>
   )
 }

@@ -18,8 +18,8 @@ export default function Schedule() {
           </li>
         ))}
       </ol>
-      <img src="/images/pumpkin.webp" alt="" aria-hidden="true" width={217} height={217} className="pointer-events-none absolute right-0 bottom-0 hidden w-[217px] lg:block" />
-      <img src="/images/leaves.webp" alt="" aria-hidden="true" width={130} height={130} className="pointer-events-none absolute right-24 bottom-8 hidden w-[130px] lg:block" />
+      <img src="/images/pumpkin.webp" alt="" aria-hidden="true" loading="lazy" width={217} height={217} className="pointer-events-none absolute right-0 bottom-0 hidden w-[217px] lg:block" />
+      <img src="/images/leaves.webp" alt="" aria-hidden="true" loading="lazy" width={130} height={130} className="pointer-events-none absolute right-24 bottom-8 hidden w-[130px] lg:block" />
     </section>
   )
 }
