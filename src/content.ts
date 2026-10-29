@@ -7,6 +7,7 @@ export type NavLink = { label: string; href: string }
 export const SIGNUP_URL = 'https://docs.google.com/forms/d/e/1FAIpQLScZSl2-FxtG2NfeamI6Y66CkE2i5l2mK9HaxBdjVd57IjkAag/viewform?usp=dialog'
 export const DEVPOST_URL = 'https://pumpkin-playground.devpost.com'
 export const ACM_URL = ''
+export const CONTACT_EMAIL = ''
 
 export const hero = {
   titleTop: 'Pumpkin',
@@ -61,3 +62,30 @@ export const footerLinks: NavLink[] = [
   { label: 'LinkedIn', href: '' },
 ]
 export const visibleFooterLinks = footerLinks.filter((l) => l.href)
+
+export const legal = {
+  link: 'Privacy, Terms & Disclaimers',
+  title: 'Legal & Information',
+  owner: 'ACM at CSULB',
+  year: new Date().getFullYear(),
+  sections: [
+    {
+      title: 'Privacy Policy',
+      body: 'This website does not collect, track, or store any personal data, and it does not use cookies. Our hosting provider (Vercel) may automatically log standard technical access data, such as IP addresses and timestamps, for security and abuse prevention only.',
+    },
+    {
+      title: 'Terms of Service',
+      body: 'This website and its schedule are provided “as is,” without warranties of any kind, express or implied. To the fullest extent permitted by law, we are not liable for any damages, losses, or inaccuracies arising from your use of this site or reliance on its content.',
+    },
+    {
+      title: 'Schedule & Event Disclaimer',
+      body: 'All dates, times, locations, and events listed on this site are subject to change without notice. We are not liable for any changes, cancellations, or missed events. Please check back for the latest information.',
+    },
+    {
+      title: 'CCPA / COPPA & Minor Notice',
+      body: 'Because this site collects no personal information, there is no personal data to access, sell, or delete, consistent with data minimization standards under laws such as the CCPA. This site is not directed at children under 13, and we do not knowingly collect information from them.',
+    },
+  ] satisfies Card[],
+  contactTitle: 'Contact & Copyright',
+  contactBody: 'Questions about the schedule or site content?',
+}

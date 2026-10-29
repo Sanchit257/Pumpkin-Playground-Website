@@ -1,4 +1,5 @@
-import { ACM_URL, footerBy, hero, visibleFooterLinks } from '../content'
+import { ACM_URL, footerBy, hero, legal, visibleFooterLinks } from '../content'
+import LegalDialog from './LegalDialog'
 
 const external = (href: string) =>
   href.startsWith('http') ? { target: '_blank', rel: 'noopener noreferrer' } : {}
@@ -38,6 +39,12 @@ export default function Footer() {
             </li>
           ))}
         </ul>
+      </div>
+      <div className="mx-auto mt-8 flex max-w-[1377px] flex-col items-center gap-3 border-t border-white/25 pt-6 text-center sm:flex-row sm:justify-between sm:text-left">
+        <p className="font-body text-base text-white/80">
+          © {legal.year} {legal.owner}
+        </p>
+        <LegalDialog />
       </div>
     </footer>
   )
