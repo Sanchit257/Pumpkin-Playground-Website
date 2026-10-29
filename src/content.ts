@@ -7,7 +7,7 @@ export type NavLink = { label: string; href: string }
 export const SIGNUP_URL = 'https://docs.google.com/forms/d/e/1FAIpQLScZSl2-FxtG2NfeamI6Y66CkE2i5l2mK9HaxBdjVd57IjkAag/viewform?usp=dialog'
 export const DEVPOST_URL = 'https://pumpkin-playground.devpost.com'
 export const ACM_URL = ''
-export const CONTACT_EMAIL = ''
+export const CONTACT_EMAIL = 'sponsorship@csulb.acm.org'
 
 export const hero = {
   titleTop: 'Pumpkin',
