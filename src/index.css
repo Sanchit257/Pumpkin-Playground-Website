@@ -52,3 +52,6 @@ html {
 body {
   @apply bg-cream font-body text-brown-dark;
 }
+html:has(dialog[open]) {
+  overflow: hidden;
+}
